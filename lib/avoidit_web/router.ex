@@ -29,6 +29,8 @@ defmodule AvoiditWeb.Router do
 
       live "/emails/new", EmailLive.New
       live "/emails/:id/edit", EmailLive.Edit
+
+      live "/sources/get", SourcesLive.Show
       # in each liveview, add one of the following at the top of the module:
       #
       # If an authenticated user must be present:
