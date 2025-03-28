@@ -1,0 +1,18 @@
+<h1>Dashboard</h1>
+<.link href={~p"/emails/new"} class="btn btn-primary">New Email</.link>
+
+<.table id="emails" rows={@emails}>
+  <:col :let={email} label="title">{email.title}</:col>
+  <:col :let={email} label="email_address">{email.email_address}</:col>
+  <:col :let={email} label="send_time">{email.send_time}</:col>
+  <:col :let={email} label="sources">
+    <ul>
+      <li :for={source <- email.sources}>
+        {source.source} - {source.sub_source}
+      </li>
+    </ul>
+  </:col>
+  <:action :let={email}>
+    <.link href={~p"/emails/#{email.id}/edit"} class="btn btn-primary">Edit</.link>
+  </:action>
+</.table>
