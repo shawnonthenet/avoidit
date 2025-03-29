@@ -12,4 +12,14 @@ defmodule AvoiditWeb.DashboardLive.Index do
 
     {:ok, socket}
   end
+
+  def handle_event("send_test_email", %{"email_id" => email_id}, socket) do
+    Avoidit.Outbound.EmailSender.send_email(email_id)
+
+    socket =
+      socket
+      |> put_flash(:info, "Test email sent")
+
+    {:noreply, socket}
+  end
 end

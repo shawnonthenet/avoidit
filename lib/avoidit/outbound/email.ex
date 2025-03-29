@@ -14,6 +14,11 @@ defmodule Avoidit.Outbound.Email do
       accept [:title, :send_time, :email_address]
       argument :sources, {:array, :map}
       change manage_relationship(:sources, type: :direct_control, order_is_key: :order)
+
+      change after_action(fn _changeset, record, _context ->
+               Avoidit.Outbound.EmailSender.schedule_next_email(record.id)
+               {:ok, record}
+             end)
     end
 
     update :update do
@@ -22,6 +27,11 @@ defmodule Avoidit.Outbound.Email do
       require_atomic? false
       argument :sources, {:array, :map}
       change manage_relationship(:sources, type: :direct_control, order_is_key: :order)
+
+      change after_action(fn _changeset, record, _context ->
+               Avoidit.Outbound.EmailSender.schedule_next_email(record.id)
+               {:ok, record}
+             end)
     end
   end
 

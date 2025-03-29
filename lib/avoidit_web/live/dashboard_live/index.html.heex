@@ -14,5 +14,8 @@
   </:col>
   <:action :let={email}>
     <.link href={~p"/emails/#{email.id}/edit"} class="btn btn-primary">Edit</.link>
+    <.link phx-click="send_test_email" phx-value-email_id={email.id} class="btn btn-secondary">
+      Send Test
+    </.link>
   </:action>
 </.table>

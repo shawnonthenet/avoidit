@@ -1,5 +1,5 @@
 <%= if @data do %>
-  <%= if @type == "subreddit" do %> 
+  <%= if @type == "subreddit" do %>
     <table>
       <thead>
         <tr>
@@ -8,33 +8,37 @@
         </tr>
       </thead>
       <tbody>
-          <tr :for={post <- @data}>
-            <td><.link href={"/sources/get/?subreddit=#{@subreddit}&post_id=#{post.post_id}"}>{post.title}</.link></td>
-            <td><%= post.comments %></td>
-            </tr>
-</tbody>
-</table>
-<% end %>
-<%= if @type == "post" do %>
-  <div class="comments-container">
-    <%= for comment <- @data do %>
-      <.live_component
-        module={AvoiditWeb.CommentComponent}
-        id={"comment-#{comment.author}-#{System.unique_integer()}"}
-        comment={comment}
-        depth={0}
-      />
-    <% end %>
-  </div>
-<% end %>
+        <tr :for={post <- @data}>
+          <td>
+            <.link href={"/sources/get/?subreddit=#{@subreddit}&post_id=#{post.post_id}"}>
+              {post.title}
+            </.link>
+          </td>
+          <td>{post.comments}</td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <%= if @type == "post" do %>
+    <div class="comments-container">
+      <%= for comment <- @data do %>
+        <.live_component
+          module={AvoiditWeb.CommentComponent}
+          id={"comment-#{comment.author}-#{System.unique_integer()}"}
+          comment={comment}
+          depth={0}
+        />
+      <% end %>
+    </div>
+  <% end %>
 <% else %>
-<.form for={@form} phx-submit="get_subreddit">
-  <.input type="text" name="subreddit" value="" placeholder="Enter subreddit" />
-  <.button type="submit">Get Subreddit</.button>
-</.form>
-<.form for={@form} phx-submit="get_post">
-  <.input type="text" name="subreddit" value="" placeholder="Enter subreddit" />
-  <.input type="text" name="post_id" value="" placeholder="Enter post id" />
-  <.button type="submit">Get Post</.button>
-</.form>
+  <.form for={@form} phx-submit="get_subreddit">
+    <.input type="text" name="subreddit" value="" placeholder="Enter subreddit" />
+    <.button type="submit">Get Subreddit</.button>
+  </.form>
+  <.form for={@form} phx-submit="get_post">
+    <.input type="text" name="subreddit" value="" placeholder="Enter subreddit" />
+    <.input type="text" name="post_id" value="" placeholder="Enter post id" />
+    <.button type="submit">Get Post</.button>
+  </.form>
 <% end %>

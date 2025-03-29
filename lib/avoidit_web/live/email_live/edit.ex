@@ -27,10 +27,10 @@ defmodule AvoiditWeb.EmailLive.Edit do
       <tbody phx-hook="sourceSort" id="sourceSort">
         <.inputs_for :let={source_form} field={@form[:sources]}>
           <tr data-id={source_form.index}>
-          <td><span class="hero-bars-3 handle cursor-pointer"/></td>
+            <td><span class="hero-bars-3 handle cursor-pointer" /></td>
             <td><.input field={source_form[:source]} /></td>
             <td><.input field={source_form[:sub_source]} /></td>
-            <td><.link phx-click="remove_source" phx-value-path={source_form.name} >Remove</.link></td>
+            <td><.link phx-click="remove_source" phx-value-path={source_form.name}>Remove</.link></td>
           </tr>
         </.inputs_for>
       </tbody>
@@ -73,6 +73,7 @@ defmodule AvoiditWeb.EmailLive.Edit do
       update(socket, :form, fn form ->
         AshPhoenix.Form.add_form(form, :sources)
       end)
+
     {:noreply, socket}
   end
 
@@ -81,6 +82,7 @@ defmodule AvoiditWeb.EmailLive.Edit do
       update(socket, :form, fn form ->
         AshPhoenix.Form.remove_form(form, path)
       end)
+
     {:noreply, socket}
   end
 
@@ -89,6 +91,7 @@ defmodule AvoiditWeb.EmailLive.Edit do
       update(socket, :form, fn form ->
         AshPhoenix.Form.sort_forms(form, [:sources], order)
       end)
+
     {:noreply, socket}
   end
 end

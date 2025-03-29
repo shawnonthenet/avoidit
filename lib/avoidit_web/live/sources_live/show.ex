@@ -14,7 +14,6 @@ defmodule AvoiditWeb.SourcesLive.Show do
   end
 
   def handle_params(_params, _uri, socket) do
-
     socket = socket |> assign(form: to_form(%{"url" => ""})) |> assign(data: nil)
     {:noreply, socket}
   end
@@ -26,7 +25,6 @@ defmodule AvoiditWeb.SourcesLive.Show do
   def handle_event("get_post", %{"subreddit" => subreddit, "post_id" => post_id}, socket) do
     {:noreply, get_post(socket, subreddit, post_id)}
   end
-
 
   def get_subreddit(socket, subreddit) do
     socket
