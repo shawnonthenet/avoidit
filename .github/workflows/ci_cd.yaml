@@ -1,0 +1,107 @@
+name: CI/CD Elixir
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository_owner }}/avoidit:latest
+  GITHUB_OWNER: ${{ github.repository_owner }}
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    name: Compile with mix test, format, dialyzer & unused deps check
+    env:
+      MIX_ENV: test
+      DB_HOST: localhost
+    services:
+      postgres:
+        image: postgres:17.4
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Elixir
+        uses: erlef/setup-beam@v1.18
+        with:
+          version-file: .tool-versions
+          version-type: strict
+
+      - name: Cache deps directory
+        uses: actions/cache@v4
+        id: cache-deps
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-
+
+      - name: Cache plt files
+        uses: actions/cache@v4
+        env:
+          EX_OTP_VERSIONS: ${{ steps.setup-beam.outputs.elixir-version }}
+          KEY_BASE: plt-${{ runner.os }}-${{ env.EX_OTP_VERSIONS }}
+        with:
+          path: |
+            priv/plts
+          key: |
+            ${{ env.KEY_BASE }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ env.KEY_BASE }}-
+
+      - name: Get dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: mix deps.get
+
+      - run: mix compile --warnings-as-errors
+
+      - name: Run tests
+        run: mix test --max-failures 1 --trace --warnings-as-errors
+
+      - name: Check code is formatted
+        run: mix format --check-formatted
+
+      - name: Checks unused dependencies
+        run: mix deps.unlock --check-unused
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: ci
+    name: publish
+    outputs:
+      unique_docker_tag: ${{ steps.get-unique-docker-tag.outputs.sha_tag }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        id: login-to-ghcr
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ env.GITHUB_OWNER }}
+          password: ${{ secrets.GH_PAT }}
+
+      - name: Build and Push Docker Image
+        id: build-and-push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}

@@ -74,7 +74,7 @@ config :avoidit, AvoiditWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-#config :avoidit, Avoidit.Mailer, adapter: Swoosh.Adapters.Local
+# config :avoidit, Avoidit.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
@@ -118,12 +118,9 @@ config :avoidit, Avoidit.Mailer,
   from: System.get_env("EMAIL_FROM"),
   link_domain: System.get_env("LINK_DOMAIN")
 
-
 config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: Avoidit.Finch
 
 config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
-
-
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

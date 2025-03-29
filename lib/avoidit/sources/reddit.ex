@@ -21,7 +21,7 @@ defmodule Avoidit.Sources.Reddit do
   def get_post_comments(subreddit, post_id) do
     url = "https://www.reddit.com/r/#{subreddit}/comments/#{post_id}.json"
     {:ok, %HTTPoison.Response{body: body}} = HTTPoison.get(url)
-    [post_data, comments] = Jason.decode!(body)
+    [_post_data, comments] = Jason.decode!(body)
     build_comment_tree(comments["data"]["children"])
   end
 

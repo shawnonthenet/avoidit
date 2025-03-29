@@ -16,7 +16,10 @@ defmodule Avoidit.Outbound.DailyEmail do
       case s.source do
         "reddit" ->
           data = Avoidit.Sources.Reddit.get_posts(s.sub_source)
-          generate_html(%{data: data, subreddit: s.sub_source}) |> Phoenix.HTML.Safe.to_iodata() |> IO.iodata_to_binary()
+
+          generate_html(%{data: data, subreddit: s.sub_source})
+          |> Phoenix.HTML.Safe.to_iodata()
+          |> IO.iodata_to_binary()
 
         _ ->
           ""

@@ -5,7 +5,7 @@ defmodule Avoidit.Accounts.CreateUser do
     Task.start_link(__MODULE__, :run, [arg])
   end
 
-  def run(arg) do
+  def run(_arg) do
     if Ash.count!(Avoidit.Accounts.User, authorize?: false) == 0 do
       Ash.create(
         Ash.Changeset.for_create(Avoidit.Accounts.User, :register_with_password, %{
