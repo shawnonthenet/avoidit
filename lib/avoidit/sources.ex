@@ -5,6 +5,4 @@ defmodule Avoidit.Sources do
   resources do
     resource Avoidit.Sources.Source
   end
-
-
 end

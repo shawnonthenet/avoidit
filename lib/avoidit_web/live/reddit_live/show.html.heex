@@ -1,32 +1,32 @@
-  <%= if @type == "subreddit" do %>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Comments</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr :for={post <- @data}>
-          <td>
-            <.link href={"/sources/get/?subreddit=#{@subreddit}&post_id=#{post.post_id}"}>
-              {post.title}
-            </.link>
-          </td>
-          <td>{post.comments}</td>
-        </tr>
-      </tbody>
-    </table>
-  <% end %>
-  <%= if @type == "post" do %>
-    <div class="comments-container">
-      <%= for comment <- @data do %>
-        <.live_component
-          module={AvoiditWeb.CommentComponent}
-          id={"comment-#{comment.author}-#{System.unique_integer()}"}
-          comment={comment}
-          depth={0}
-        />
-      <% end %>
-    </div>
-  <% end %>
+<%= if @type == "subreddit" do %>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Comments</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr :for={post <- @data}>
+        <td>
+          <.link href={"/sources/get/?subreddit=#{@subreddit}&post_id=#{post.post_id}"}>
+            {post.title}
+          </.link>
+        </td>
+        <td>{post.comments}</td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+<%= if @type == "post" do %>
+  <div class="comments-container">
+    <%= for comment <- @data do %>
+      <.live_component
+        module={AvoiditWeb.CommentComponent}
+        id={"comment-#{comment.author}-#{System.unique_integer()}"}
+        comment={comment}
+        depth={0}
+      />
+    <% end %>
+  </div>
+<% end %>
