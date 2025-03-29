@@ -34,6 +34,7 @@ services:
 
   web:
     image: ${WEB_IMAGE:-ghcr.io/shawnonthenet/avoidit:latest}
+    pull_policy: always
     deploy:
       replicas: ${WEB_REPLICAS:-1}
       restart_policy:

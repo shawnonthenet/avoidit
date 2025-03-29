@@ -1,6 +1,8 @@
 defmodule AvoiditWeb.EmailLive.New do
   use AvoiditWeb, :live_view
 
+  on_mount {AvoiditWeb.LiveUserAuth, :live_user_required}
+
   def mount(_params, _session, socket) do
     form = Avoidit.Outbound.form_to_create_email()
 
@@ -27,7 +29,9 @@ defmodule AvoiditWeb.EmailLive.New do
         <.inputs_for :let={source_form} field={@form[:sources]}>
           <tr data-id={source_form.index}>
             <td><span class="hero-bars-3 handle cursor-pointer" /></td>
-            <td><.input field={source_form[:source]} /></td>
+            <td>
+              <.input field={source_form[:source]} type="select" options={[{"Reddit", "reddit"}]} />
+            </td>
             <td><.input field={source_form[:sub_source]} /></td>
             <td><.link phx-click="remove_source" phx-value-path={source_form.name}>Remove</.link></td>
           </tr>

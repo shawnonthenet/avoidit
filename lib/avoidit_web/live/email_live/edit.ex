@@ -1,6 +1,8 @@
 defmodule AvoiditWeb.EmailLive.Edit do
   use AvoiditWeb, :live_view
 
+  on_mount {AvoiditWeb.LiveUserAuth, :live_user_required}
+
   def mount(%{"id" => id}, _session, socket) do
     email = Avoidit.Outbound.get_email_by_id!(id, load: [:sources])
     form = Avoidit.Outbound.form_to_update_email(email)
@@ -28,7 +30,9 @@ defmodule AvoiditWeb.EmailLive.Edit do
         <.inputs_for :let={source_form} field={@form[:sources]}>
           <tr data-id={source_form.index}>
             <td><span class="hero-bars-3 handle cursor-pointer" /></td>
-            <td><.input field={source_form[:source]} /></td>
+            <td>
+              <.input field={source_form[:source]} type="select" options={[{"Reddit", "reddit"}]} />
+            </td>
             <td><.input field={source_form[:sub_source]} /></td>
             <td><.link phx-click="remove_source" phx-value-path={source_form.name}>Remove</.link></td>
           </tr>
