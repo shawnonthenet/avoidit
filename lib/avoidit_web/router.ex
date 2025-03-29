@@ -31,6 +31,10 @@ defmodule AvoiditWeb.Router do
       live "/emails/:id/edit", EmailLive.Edit
 
       live "/sources/get", SourcesLive.Show
+
+      live "/r/:subreddit/comments/:post_id/:post_name", RedditLive.Show
+      live "/r/:subreddit/comments/:post_id", RedditLive.Show
+      live "/r/:subreddit", RedditLive.Show
       # in each liveview, add one of the following at the top of the module:
       #
       # If an authenticated user must be present:

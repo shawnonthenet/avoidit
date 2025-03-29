@@ -1,18 +1,36 @@
 # Avoidit
 
-To start your Phoenix server:
+# Getting started
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+Avoidit can be run either directly from source or in docker compose.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Required ENV VARS
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+SECRET_KEY_BASE=```mix phx.gen.secret```
+TOKEN_SIGNING_SECRET=```mix phx.gen.secret```
+MAILGUN_DOMAIN=yourdomain
+MAILGUN_API_KEY=yourapikey
+EMAIL_FROM=yourmailgun@address.com
+LINK_DOMAIN=https://avoidit.yourdomain.com
+PHX_SERVER=true
+DATABASE_URL=postgresql://user:pass@server:port/database
+ADMIN_EMAIL=your@email.com
+ADMIN_PASSWORD=yourPassword
+PHX_HOST=avoidit.yourdomain.com
 
-## Learn more
+if you are running in docker compose you'll also want
+POSTGRES_PASSWORD=yourdbpassword
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+## Run locally
+
+1. Download the source
+2. ```mix deps.get```
+3. ```mix ecto.setup```
+4 ```iex -S mix phx.server```
+
+## Run in Docker
+1. Copy the docker-compose.yaml and Caddyfile to your server
+2. Update the domain in Caddyfile
+3. Create a .env file with the ENV VARs above
+4. ```docker compose up```
+
