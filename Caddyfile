@@ -1,0 +1,3 @@
+avoiditdomain {
+	reverse_proxy web:4000
+}
