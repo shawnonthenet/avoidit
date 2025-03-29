@@ -29,7 +29,7 @@ POSTGRES_PASSWORD=yourdbpassword
 1. Download the source
 2. ```mix deps.get```
 3. ```mix ecto.setup```
-4 ```iex -S mix phx.server```
+4. ```iex -S mix phx.server```
 
 ## Run in Docker
 1. Copy the docker-compose.yaml and Caddyfile to your server
