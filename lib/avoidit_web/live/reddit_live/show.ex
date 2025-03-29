@@ -1,6 +1,8 @@
 defmodule AvoiditWeb.RedditLive.Show do
   use AvoiditWeb, :live_view
 
+  on_mount {AvoiditWeb.LiveUserAuth, :live_user_required}
+
   def mount(_params, _session, socket) do
     {:ok, socket}
   end
