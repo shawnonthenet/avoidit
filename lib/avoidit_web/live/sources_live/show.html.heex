@@ -1,4 +1,4 @@
-<%= if @data do %>
+<%= if @post_data do %>
   <%= if @type == "subreddit" do %>
     <table>
       <thead>
@@ -8,7 +8,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr :for={post <- @data}>
+        <tr :for={post <- @post_data}>
           <td>
             <.link href={"/sources/get/?subreddit=#{@subreddit}&post_id=#{post.post_id}"}>
               {post.title}

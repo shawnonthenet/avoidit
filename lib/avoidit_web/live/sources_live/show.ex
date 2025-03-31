@@ -31,7 +31,7 @@ defmodule AvoiditWeb.SourcesLive.Show do
   def get_subreddit(socket, subreddit) do
     socket
     |> assign(subreddit: subreddit)
-    |> assign(data: Avoidit.Sources.Reddit.get_posts(subreddit))
+    |> assign(post_data: Avoidit.Sources.Reddit.get_posts(subreddit))
     |> assign(type: "subreddit")
   end
 
