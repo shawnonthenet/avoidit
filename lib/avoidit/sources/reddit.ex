@@ -49,7 +49,7 @@ defmodule Avoidit.Sources.Reddit do
     |> Enum.reject(&is_nil/1)
   end
 
-  def format_post_data([post_data, comments]) do
+  def format_post_data(post_data) do
     post = post_data["data"]["children"] |> List.first() |> Map.get("data")
 
     %{
@@ -58,8 +58,7 @@ defmodule Avoidit.Sources.Reddit do
       url: post["url"],
       author: post["author"],
       score: post["score"],
-      created_utc: post["created_utc"],
-      comments: comments
+      created_utc: post["created_utc"]
     }
   end
 end
