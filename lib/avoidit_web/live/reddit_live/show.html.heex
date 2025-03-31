@@ -19,8 +19,16 @@
   </table>
 <% end %>
 <%= if @type == "post" do %>
+  <div class="post-container">
+    <h1>{@post_data.title}</h1>
+    <p>{@post_data.content}</p>
+    <p>{@post_data.url}</p>
+    <p>{@post_data.author}</p>
+    <p>{@post_data.score}</p>
+    <p>{@post_data.created_utc}</p>
+  </div>
   <div class="comments-container">
-    <%= for comment <- @data do %>
+    <%= for comment <- @comments do %>
       <.live_component
         module={AvoiditWeb.CommentComponent}
         id={"comment-#{comment.author}-#{System.unique_integer()}"}

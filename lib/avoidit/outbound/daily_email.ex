@@ -30,6 +30,7 @@ defmodule Avoidit.Outbound.DailyEmail do
 
   defp generate_html(assigns) do
     ~H"""
+    <h1>Top posts from #{@subreddit}</h1>
     <table>
       <thead>
         <tr>

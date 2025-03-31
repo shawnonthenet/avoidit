@@ -21,8 +21,8 @@ defmodule Avoidit.Sources.Reddit do
   def get_post_comments(subreddit, post_id) do
     url = "https://www.reddit.com/r/#{subreddit}/comments/#{post_id}.json"
     {:ok, %HTTPoison.Response{body: body}} = HTTPoison.get(url)
-    [_post_data, comments] = Jason.decode!(body)
-    build_comment_tree(comments["data"]["children"])
+    [post_data, comments] = Jason.decode!(body)
+    [format_post_data(post_data), build_comment_tree(comments["data"]["children"])]
   end
 
   defp build_comment_tree(comments) do
@@ -47,5 +47,19 @@ defmodule Avoidit.Sources.Reddit do
       end
     end)
     |> Enum.reject(&is_nil/1)
+  end
+
+  def format_post_data([post_data, comments]) do
+    post = post_data["data"]["children"] |> List.first() |> Map.get("data")
+
+    %{
+      title: post["title"],
+      content: post["selftext"],
+      url: post["url"],
+      author: post["author"],
+      score: post["score"],
+      created_utc: post["created_utc"],
+      comments: comments
+    }
   end
 end

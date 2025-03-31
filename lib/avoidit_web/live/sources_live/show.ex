@@ -36,9 +36,12 @@ defmodule AvoiditWeb.SourcesLive.Show do
   end
 
   def get_post(socket, subreddit, post_id) do
+    [post_data, comments] = Avoidit.Sources.Reddit.get_post_comments(subreddit, post_id)
+
     socket
     |> assign(subreddit: subreddit)
-    |> assign(data: Avoidit.Sources.Reddit.get_post_comments(subreddit, post_id))
+    |> assign(post_data: post_data)
+    |> assign(comments: comments)
     |> assign(type: "post")
   end
 end
