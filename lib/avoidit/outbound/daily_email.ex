@@ -41,7 +41,7 @@ defmodule Avoidit.Outbound.DailyEmail do
       <tbody>
         <tr :for={post <- @data}>
           <td>
-            <.link href={"#{Application.get_env(:avoidit, Avoidit.Mailer)[:link_domain]}/sources/get/?subreddit=#{@subreddit}&post_id=#{post.post_id}"}>
+            <.link href={"#{Application.get_env(:avoidit, Avoidit.Mailer)[:link_domain]}/r/#{@subreddit}/comments/#{post.post_id}"}>
               {post.title}
             </.link>
           </td>
