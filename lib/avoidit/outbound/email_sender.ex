@@ -33,7 +33,7 @@ defmodule Avoidit.Outbound.EmailSender do
     |> Oban.cancel_all_jobs()
 
     %{"email_id" => email_id}
-    |> Avoidit.Outbound.EmailSender.new()
-    |> Oban.insert(schedule_at: schedule_at)
+    |> Avoidit.Outbound.EmailSender.new(scheduled_at: schedule_at)
+    |> Oban.insert()
   end
 end

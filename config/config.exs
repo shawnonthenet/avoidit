@@ -10,7 +10,7 @@ import Config
 config :avoidit, Oban,
   engine: Oban.Engines.Basic,
   notifier: Oban.Notifiers.Postgres,
-  queues: [default: 10],
+  queues: [default: 10, email_sender: 10],
   repo: Avoidit.Repo
 
 config :ash,
