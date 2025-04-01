@@ -29,6 +29,7 @@ defmodule Avoidit.Outbound.EmailSender do
     # to ensure we don't have duplicates
     Oban.Job
     |> where([j], j.queue == "email_sender")
+    |> where([j], j.state != "executing")
     |> where([j], j.args == ^%{"email_id" => email_id})
     |> Oban.cancel_all_jobs()
 
