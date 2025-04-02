@@ -7,7 +7,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr :for={post <- @data}>
+      <tr :for={post <- @post_data}>
         <td>
           <.link href={"/sources/get/?subreddit=#{@subreddit}&post_id=#{post.post_id}"}>
             {post.title}
