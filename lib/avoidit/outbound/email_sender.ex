@@ -22,8 +22,7 @@ defmodule Avoidit.Outbound.EmailSender do
     time = email.send_time
 
     schedule_at =
-      DateTime.new!(tomorrow, time)
-      |> DateTime.shift_zone!(Application.get_env(:avoidit, :time_zone))
+      DateTime.new!(tomorrow, time, Application.get_env(:avoidit, :time_zone))
 
     # clear out all existing jobs for this email
     # to ensure we don't have duplicates
