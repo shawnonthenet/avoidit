@@ -25,7 +25,6 @@ defmodule Avoidit.Outbound.EmailSender do
       |> DateTime.shift_zone!(Application.get_env(:avoidit, :time_zone))
       |> DateTime.add(1, :day)
 
-
     # clear out all existing jobs for this email
     # to ensure we don't have duplicates
     Oban.Job
