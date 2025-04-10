@@ -28,8 +28,24 @@ defmodule Avoidit.Outbound.DailyEmail do
     |> Enum.join("\n\n\n")
   end
 
+  defp table_style() do
+    """
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      td, th {
+        border-bottom: 1px solid #ddd;
+        padding: 12px 8px;
+      }
+    </style>
+    """
+  end
+
   defp generate_html(assigns) do
     ~H"""
+    {raw(table_style())}
     <h1>Top posts from #{@subreddit}</h1>
     <table>
       <thead>
