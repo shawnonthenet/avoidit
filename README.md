@@ -7,6 +7,13 @@ I built it so that I can keep reddit blocked on all my devices to avoid scrollin
 
 Avoidit can be run either directly from source or in docker compose.
 
+### Get your reddit api key
+1. Log into https://old.reddit.com
+2. Go to Preferences -> Apps
+3. Create new app
+4. Name it anything you wish, select script for type and return url can be the url where you will host Avoidit
+5. note the app id and secret for the .env file
+
 ## Required ENV VARS
 
 SECRET_KEY_BASE=```mix phx.gen.secret```
@@ -20,6 +27,8 @@ DATABASE_URL=postgresql://user:pass@server:port/database
 ADMIN_EMAIL=your@email.com
 ADMIN_PASSWORD=yourPassword
 PHX_HOST=avoidit.yourdomain.com
+REDDIT_CLIENT_ID=(Your reddit api client id)
+REDDIT_CLIENT_SECRET=(Your reddit api secret)
 
 if you are running in docker compose you'll also want
 POSTGRES_PASSWORD=yourdbpassword
@@ -35,7 +44,7 @@ POSTGRES_PASSWORD=yourdbpassword
 1. Copy the docker-compose.yaml and Caddyfile to your server
 2. Update the domain in Caddyfile
 3. Create a .env file with the ENV VARs above
-4. ```docker compose up```
+4. ```docker compose up -d```
 
 # How to use
 1. Setup emails to mail you daily

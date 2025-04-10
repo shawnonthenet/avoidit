@@ -1,7 +1,35 @@
 defmodule Avoidit.Sources.Reddit do
   def get_posts(subreddit, limit \\ 10) do
-    url = "https://old.reddit.com/r/#{subreddit}/top.json?limit=#{limit}"
-    {:ok, %HTTPoison.Response{body: body}} = HTTPoison.get(url)
+    client_id = Application.get_env(:avoidit, :reddit_client_id)
+    client_secret = Application.get_env(:avoidit, :reddit_client_secret)
+
+    auth = Base.encode64("#{client_id}:#{client_secret}")
+
+    # Get access token
+    {:ok, %HTTPoison.Response{body: token_body}} =
+      HTTPoison.post(
+        "https://www.reddit.com/api/v1/access_token",
+        "grant_type=client_credentials",
+        [
+          {"Authorization", "Basic #{auth}"},
+          {"Content-Type", "application/x-www-form-urlencoded"}
+        ]
+      )
+
+    %{"access_token" => access_token} = Jason.decode!(token_body)
+
+    # Get posts
+    url = "https://oauth.reddit.com/r/#{subreddit}/top?limit=#{limit}&t=day"
+
+    {:ok, %HTTPoison.Response{body: body}} =
+      HTTPoison.get(
+        url,
+        [
+          {"Authorization", "Bearer #{access_token}"},
+          {"User-Agent", "Avoidit/1.0"}
+        ]
+      )
+
     res = Jason.decode!(body)
 
     posts =
@@ -19,8 +47,36 @@ defmodule Avoidit.Sources.Reddit do
   end
 
   def get_post_comments(subreddit, post_id) do
-    url = "https://www.reddit.com/r/#{subreddit}/comments/#{post_id}.json"
-    {:ok, %HTTPoison.Response{body: body}} = HTTPoison.get(url)
+    client_id = Application.get_env(:avoidit, :reddit_client_id)
+    client_secret = Application.get_env(:avoidit, :reddit_client_secret)
+
+    auth = Base.encode64("#{client_id}:#{client_secret}")
+
+    # Get access token
+    {:ok, %HTTPoison.Response{body: token_body}} =
+      HTTPoison.post(
+        "https://www.reddit.com/api/v1/access_token",
+        "grant_type=client_credentials",
+        [
+          {"Authorization", "Basic #{auth}"},
+          {"Content-Type", "application/x-www-form-urlencoded"}
+        ]
+      )
+
+    %{"access_token" => access_token} = Jason.decode!(token_body)
+
+    # Get post comments
+    url = "https://oauth.reddit.com/r/#{subreddit}/comments/#{post_id}"
+
+    {:ok, %HTTPoison.Response{body: body}} =
+      HTTPoison.get(
+        url,
+        [
+          {"Authorization", "Bearer #{access_token}"},
+          {"User-Agent", "Avoidit/1.0"}
+        ]
+      )
+
     [post_data, comments] = Jason.decode!(body)
     [format_post_data(post_data), build_comment_tree(comments["data"]["children"])]
   end
