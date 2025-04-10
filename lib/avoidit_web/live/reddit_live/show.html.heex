@@ -20,14 +20,12 @@
 <% end %>
 <%= if @type == "post" do %>
   <div class="post-container">
-    <h1>{@post_data.title}</h1>
-    <p>{@post_data.content}</p>
-    <p>{@post_data.url}</p>
-    <p>{@post_data.author}</p>
-    <p>{@post_data.score}</p>
-    <p>{@post_data.created_utc}</p>
+    <h1 class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
+      {@post_data.title}
+    </h1>
+    <p class="mt-6 text-xl/8 text-gray-700">{@post_data.content}</p>
   </div>
-  <div class="comments-container">
+  <div class="mt-10 space-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16">
     <%= for comment <- @comments do %>
       <.live_component
         module={AvoiditWeb.CommentComponent}

@@ -19,10 +19,10 @@ defmodule Avoidit.Outbound.EmailSender do
   def schedule_next_email(email_id) do
     email = Avoidit.Outbound.get_email_by_id!(email_id)
     time = email.send_time
+    today = DateTime.now!(Application.get_env(:avoidit, :time_zone)) |> DateTime.to_date()
 
     schedule_at =
-      DateTime.new!(Date.utc_today(), time)
-      |> DateTime.shift_zone!(Application.get_env(:avoidit, :time_zone))
+      DateTime.new!(today, time, Application.get_env(:avoidit, :time_zone))
       |> DateTime.add(1, :day)
 
     # clear out all existing jobs for this email
