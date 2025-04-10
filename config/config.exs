@@ -109,9 +109,7 @@ config :phoenix, :json_library, Jason
 config :avoidit,
   admin_email: "admin@sanswork.com",
   admin_password: "Password1234!",
-  time_zone: System.get_env("TIME_ZONE") || "Australia/Sydney",
-  reddit_client_id: System.get_env("REDDIT_CLIENT_ID"),
-  reddit_client_secret: System.get_env("REDDIT_CLIENT_SECRET")
+  time_zone: System.get_env("TIME_ZONE") || "Australia/Sydney"
 
 config :avoidit, Avoidit.Mailer,
   adapter: Swoosh.Adapters.Mailgun,
