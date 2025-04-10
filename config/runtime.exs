@@ -68,7 +68,9 @@ if config_env() == :prod do
   config :avoidit,
     token_signing_secret:
       System.get_env("TOKEN_SIGNING_SECRET") ||
-        raise("Missing environment variable `TOKEN_SIGNING_SECRET`!")
+        raise("Missing environment variable `TOKEN_SIGNING_SECRET`!"),
+    reddit_client_id: System.get_env("REDDIT_CLIENT_ID"),
+    reddit_client_secret: System.get_env("REDDIT_CLIENT_SECRET")
 
   config :avoidit, :admin_email, System.get_env("ADMIN_EMAIL")
   config :avoidit, :admin_password, System.get_env("ADMIN_PASSWORD")
