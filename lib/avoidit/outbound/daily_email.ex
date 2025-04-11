@@ -27,6 +27,7 @@ defmodule Avoidit.Outbound.DailyEmail do
       end
     end)
     |> Enum.to_list()
+    |> Enum.map(fn {:ok, html} -> html end)
     |> Enum.join("\n\n\n")
   end
 
