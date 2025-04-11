@@ -12,7 +12,8 @@ defmodule Avoidit.Outbound.DailyEmail do
   end
 
   defp build_email_contents(email) do
-    Enum.map(email.sources, fn s ->
+    email.sources
+    |> Task.async_stream(fn s ->
       case s.source do
         "reddit" ->
           data = Avoidit.Sources.Reddit.get_posts(s.sub_source)
@@ -25,6 +26,7 @@ defmodule Avoidit.Outbound.DailyEmail do
           ""
       end
     end)
+    |> Enum.to_list()
     |> Enum.join("\n\n\n")
   end
 
@@ -39,13 +41,13 @@ defmodule Avoidit.Outbound.DailyEmail do
         </tr>
       </thead>
       <tbody>
-        <tr :for={post <- @data}>
-          <td>
+        <tr :for={post <- @data} style="border-bottom: 1px solid #ddd;">
+          <td style="padding: 12px 8px;">
             <.link href={"#{Application.get_env(:avoidit, Avoidit.Mailer)[:link_domain]}/r/#{@subreddit}/comments/#{post.post_id}"}>
               {post.title}
             </.link>
           </td>
-          <td>{post.comments}</td>
+          <td style="padding: 12px 8px;">{post.comments}</td>
         </tr>
       </tbody>
     </table>
