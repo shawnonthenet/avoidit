@@ -44,7 +44,13 @@ POSTGRES_PASSWORD=yourdbpassword
 1. Copy the docker-compose.yaml and Caddyfile to your server
 2. Update the domain in Caddyfile
 3. Create a .env file with the ENV VARs above
-4. ```docker compose up -d```
+4. Move the Caddyfile to /etc/caddy/Caddyfile
+5. ```docker compose up -d```
+
+## Run on Fly.io/Heroku/Gigalixir/etc
+Since Avoidit runs in Docker fine for all of these you should be fine doing a git clone to local and running the relevant command to launch a new app
+
+Make sure you set your secrets on the host as detailed in the .env details above and you have a postgres database
 
 # How to use
 1. Setup emails to mail you daily
