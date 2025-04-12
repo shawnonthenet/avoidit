@@ -55,3 +55,11 @@ Make sure you set your secrets on the host as detailed in the .env details above
 # How to use
 1. Setup emails to mail you daily
 2. Replace reddit.com with your domain in a url to view it from your server
+
+I personally use a chrome extension called Url Auto Redirector https://chromewebstore.google.com/detail/mckfcfnegaimgcgepikhdnajpkkhdnkn with the following rules
+
+https://reddit.com/(.*) -> https://yourdomain.com/$1
+https://www.reddit.com/(.*) -> https://yourdomain.com/$1
+https://old.reddit.com/(.*) -> https://yourdomain.com/$1
+
+Make sure RegExp is checked in all 3.
