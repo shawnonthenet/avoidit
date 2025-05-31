@@ -13,6 +13,7 @@ defmodule AvoiditWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :load_from_session
+    plug AvoidIt.Plugs.ReturnToPlug
   end
 
   pipeline :api do
